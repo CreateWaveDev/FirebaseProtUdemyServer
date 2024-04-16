@@ -1,10 +1,14 @@
-const LoginService = require("../services/LoginService.1");
+/* eslint-disable linebreak-style */
+/* eslint-disable require-jsdoc */
+/* eslint-disable max-len */
+const LoginService = require("../services/LoginService");
 
 class LoginController {
   constructor(request, response, admin) {
     this.request = request;
     this.response = response;
     this.admin = admin;
+    // this.handleLogin();
   }
 
   async handleLogin() {
