@@ -6,12 +6,10 @@
 // v1を使うための宣言を行います。
 const functions = require("firebase-functions");
 
-
 // ログイン情報を作成するときに使用
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-const LoginController = require("./controllers/LoginController");
 // まず最初に関数を作ってみましょう
 // .region('asia-northeast1')を指定することで、Tokyoサーバーをクラウドファンクションズが出来上がる
 // 指定しないと、基本的にはUSサーバーになります（要確認）
@@ -22,7 +20,7 @@ exports.test = functions.region("asia-northeast1").https.onRequest((request, res
   response.send("Hello Firebase");
 });
 
-
 exports.login = functions.region("asia-northeast1").https.onRequest((request, response) => {
+  const LoginController = require("./controllers/LoginController");
   new LoginController(request, response, admin).handleLogin();
 });

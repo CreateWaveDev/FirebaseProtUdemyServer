@@ -8,7 +8,6 @@ class LoginController {
     this.request = request;
     this.response = response;
     this.admin = admin;
-    // this.handleLogin();
   }
 
   async handleLogin() {
