@@ -1,15 +1,11 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable require-jsdoc */
 /* eslint-disable max-len */
-class UserModel {
+class SetScore {
   constructor(firestore) {
     this.firestore = firestore;
   }
 
-  // ここ切り離すほうがいいかもしれない
-  // LoginSeviceでUserdataを取得して、
-  // なければ作成するという形のほうがいい
-  // 現在は
   async initializeUser(firebaseId) {
     const userDataRef = this.firestore.collection("user").doc(firebaseId);
     const doc = await userDataRef.get();
@@ -64,4 +60,4 @@ class UserModel {
   }
 }
 
-module.exports = UserModel;
+module.exports = SetScore;
