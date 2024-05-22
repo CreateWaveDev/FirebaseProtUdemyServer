@@ -1,6 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable require-jsdoc */
 /* eslint-disable max-len */
+const logger = require("firebase-functions/logger");
 const LoginService = require("../services/LoginService");
 const UserModel = require("../models/UserModel");
 class LoginController {
@@ -13,13 +14,15 @@ class LoginController {
   async handleLogin() {
     const firestore = this.admin.firestore();
     const loginService = new LoginService(firestore, this.admin);
+    logger.info("UserModel");
+    logger.info(UserModel);
     const userModel = new UserModel(firestore);
     try {
       const firebaseId = await loginService.processLoginRequest(this.request);
       const userId = await userModel.initializeUser(firebaseId);
       this.response.json({errorCode: 0, userId: userId});
     } catch (error) {
-      this.response.status(500).json({errorCode: 1, message: error.message});
+      this.response.json({errorCode: 1, message: error.message});
     }
   }
 }
