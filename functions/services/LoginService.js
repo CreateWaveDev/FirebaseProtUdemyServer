@@ -3,8 +3,9 @@
 /* eslint-disable max-len */
 // const UserModel = require("../models/UserModel");
 class LoginService {
-  constructor(firestore) {
+  constructor(firestore, admin) {
     this.firestore = firestore;
+    this.admin = admin;
   }
 
   async processLoginRequest(request) {
@@ -34,6 +35,7 @@ class LoginService {
   async verifyToken(token) {
     try {
       const decodedToken = await this.admin.auth().verifyIdToken(token);
+      console.log("通ったよ Prot Udemy Sever " + decodedToken.uid);
       return decodedToken.uid;
     } catch (error) {
       throw new Error("Failed to verify token.");

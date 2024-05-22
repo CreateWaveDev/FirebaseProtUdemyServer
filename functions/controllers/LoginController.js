@@ -12,7 +12,7 @@ class LoginController {
 
   async handleLogin() {
     const firestore = this.admin.firestore();
-    const loginService = new LoginService(firestore);
+    const loginService = new LoginService(firestore, this.admin);
     const userModel = new UserModel(firestore);
     try {
       const firebaseId = await loginService.processLoginRequest(this.request);
