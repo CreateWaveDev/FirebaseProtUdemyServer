@@ -1,19 +1,19 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable require-jsdoc */
 /* eslint-disable max-len */
-const UserModel = require("../models/UserModel");
+// const UserModel = require("../models/UserModel");
 class LoginService {
-  constructor(admin) {
-    this.admin = admin;
-    this.firestore = admin.firestore();
+  constructor(firestore) {
+    this.firestore = firestore;
   }
 
   async processLoginRequest(request) {
     try {
       const token = this.extractToken(request);
       const firebaseId = await this.verifyToken(token);
-      const userModel = new UserModel(this.firestore);
-      return await userModel.initializeUser(firebaseId);
+      // const userModel = new UserModel(this.firestore);
+      // return await userModel.initializeUser(firebaseId);
+      return firebaseId;
     } catch (error) {
       throw new Error(error.message); // エラーメッセージをそのまま投げる
     }

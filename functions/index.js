@@ -24,3 +24,8 @@ exports.login = functions.region("asia-northeast1").https.onRequest((request, re
   const LoginController = require("./controllers/LoginController");
   new LoginController(request, response, admin).handleLogin();
 });
+
+exports.score = functions.region("asia-northeast1").https.onRequest((request, response) => {
+  const ScoreController = require("./controllers/ScoreController");
+  new ScoreController(request, response, admin).setScore();
+});
