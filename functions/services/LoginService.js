@@ -3,8 +3,7 @@
 /* eslint-disable max-len */
 // const UserModel = require("../models/UserModel");
 class LoginService {
-  constructor(firestore, admin) {
-    this.firestore = firestore;
+  constructor(admin) {
     this.admin = admin;
   }
 
@@ -12,8 +11,6 @@ class LoginService {
     try {
       const token = this.extractToken(request);
       const firebaseId = await this.verifyToken(token);
-      // const userModel = new UserModel(this.firestore);
-      // return await userModel.initializeUser(firebaseId);
       return firebaseId;
     } catch (error) {
       throw new Error(error.message); // エラーメッセージをそのまま投げる
@@ -35,7 +32,7 @@ class LoginService {
   async verifyToken(token) {
     try {
       const decodedToken = await this.admin.auth().verifyIdToken(token);
-      console.log("通ったよ Prot Udemy Sever " + decodedToken.uid);
+      console.log("verifyTokenを取得 " + decodedToken.uid);
       return decodedToken.uid;
     } catch (error) {
       throw new Error("Failed to verify token.");

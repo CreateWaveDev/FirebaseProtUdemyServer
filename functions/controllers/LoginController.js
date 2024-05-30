@@ -12,14 +12,21 @@ class LoginController {
   }
 
   async handleLogin() {
-    const firestore = this.admin.firestore();
-    const loginService = new LoginService(firestore, this.admin);
-    logger.info("UserModel");
-    logger.info(UserModel);
-    const userModel = new UserModel(firestore);
+    const batch = this.admin.firestore().batch();
+    const loginService = new LoginService(this.admin);
+    const userModel = new UserModel(this.admin);
     try {
       const firebaseId = await loginService.processLoginRequest(this.request);
-      const userId = await userModel.initializeUser(firebaseId);
+      const userDoc = await userModel.initializeUser(firebaseId);
+      let userId;
+
+      if (userDoc.exists) 
+        userId = userDoc.data().userId;
+      else
+        userId = await userModel.createUserData(firebaseId,batch);
+      
+      await batch.commit();
+      
       this.response.json({errorCode: 0, userId: userId});
     } catch (error) {
       this.response.json({errorCode: 1, message: error.message});
