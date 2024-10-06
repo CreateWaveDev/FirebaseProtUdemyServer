@@ -1,7 +1,6 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable require-jsdoc */
 /* eslint-disable max-len */
-const logger = require("firebase-functions/logger");
 const LoginService = require("../services/LoginService");
 const UserModel = require("../models/UserModel");
 class LoginController {
@@ -17,16 +16,17 @@ class LoginController {
     const userModel = new UserModel(this.admin);
     try {
       const firebaseId = await loginService.processLoginRequest(this.request);
-      const userDoc = await userModel.initializeUser(firebaseId);
+      const userDoc = await userModel.getUser(firebaseId);
       let userId;
 
-      if (userDoc.exists) 
+      if (userDoc.exists) {
         userId = userDoc.data().userId;
-      else
-        userId = await userModel.createUserData(firebaseId,batch);
-      
+      } else {
+        userId = await userModel.createUser(firebaseId, batch);
+      }
+
       await batch.commit();
-      
+
       this.response.json({errorCode: 0, userId: userId});
     } catch (error) {
       this.response.json({errorCode: 1, message: error.message});

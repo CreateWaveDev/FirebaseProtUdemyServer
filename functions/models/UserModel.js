@@ -1,22 +1,28 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable require-jsdoc */
 /* eslint-disable max-len */
-const logger = require("firebase-functions/logger");
+// const logger = require("firebase-functions/logger");
 class UserModel {
   constructor(admin) {
     this.firestore = admin.firestore();
   }
 
-  async initializeUser(firebaseId) {
+  async getUser(firebaseId) {
     const userDataRef = this.firestore.collection("user").doc(firebaseId);
     const doc = await userDataRef.get();
 
     return doc;
   }
 
-  async createUserData(firebaseId,batch) {
+  async getUserData(userId) {
+    const userDataRef = this.firestore.collection("userData").doc(firebaseId);
+    const doc = await userDataRef.get();
+
+    return doc;
+  }
+
+  async createUser(firebaseId,batch) {
     const userId = await this.generateUniqueId();
-    //const batch = this.firestore.batch();
 
     const userDataRef = this.firestore.collection("user").doc(firebaseId);
     const userGameDataRef = this.firestore.collection("userData").doc("u" + userId);
@@ -56,12 +62,12 @@ class UserModel {
 
   async userIdExists(userId) {
     const doc = await this.firestore.collection("userData").doc("u" + userId).get();
-   
+
     return doc.exists;
   }
 
-  setScore(userId,batch,score){
-
+  setScore(userId, batch, score) {
+    // Dummy
   }
 }
 
